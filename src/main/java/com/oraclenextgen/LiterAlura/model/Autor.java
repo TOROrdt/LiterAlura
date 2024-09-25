@@ -11,11 +11,16 @@ public class Autor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column (unique = true)
     private String nombre;
+
     private int nacimiento;
+
     private int muerte;
-    @OneToMany (mappedBy = "autor", cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true)
+
     private List<Libro> libros;
 
     public Autor () {}
@@ -74,10 +79,8 @@ public class Autor {
 
     @Override
     public String toString() {
-        return "Autor{" +
-                "nombre='" + nombre + '\'' +
-                ", nacimiento=" + nacimiento +
-                ", muerte=" + muerte +
-                '}';
+        return  " nombre = " + nombre + '\n' +
+                " nacimiento = " + nacimiento + '\n' +
+                " muerte = " + muerte + '\n';
     }
 }

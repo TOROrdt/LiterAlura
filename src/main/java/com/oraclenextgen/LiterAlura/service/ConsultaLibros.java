@@ -8,11 +8,11 @@ import java.net.http.HttpResponse;
 
 public class ConsultaLibros {
 
-    public String consumirAPI (String url) throws IOException, InterruptedException {
+    public String consumirAPI (String url) {
 
         System.out.println ("\nConsultando a la API, un momento");
 
-        String direccionURL = "https://gutendex.com/books?search=" + url;
+        String direccionURL = "https://gutendex.com/books?search=" + url.replace(" ", "%20");
 
         HttpClient client = HttpClient.newBuilder()
                 .followRedirects(HttpClient.Redirect.ALWAYS)
@@ -22,12 +22,18 @@ public class ConsultaLibros {
                 .uri(URI.create(direccionURL))
                 .build();
 
-        HttpResponse<String> response = client
-                .send(request, HttpResponse.BodyHandlers.ofString());
+        try {
+            HttpResponse<String> response = client
+                    .send(request, HttpResponse.BodyHandlers.ofString());
 
-        String json = response.body();
+            String json = response.body();
+            return json;
 
-        return json;
+        } catch (IOException | InterruptedException e) {
+
+            System.out.print("No se pudo realizar la consulta a la API: " + e.getMessage() + "\n");
+            return null;
+        }
     }
 
 }

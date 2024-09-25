@@ -9,19 +9,23 @@ public class Libro {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column (unique = true)
     private String titulo;
+
     @ManyToOne
+    @JoinColumn (name = "autor_id", nullable = false)
     private Autor autor;
+
     private String lenguaje;
+
     private int descargas;
 
     public Libro () {}
 
     public Libro(DatosLibro libro, Autor autor) {
-//        this.id = libro.id();
         this.titulo = libro.titulo();
-        this.autor = new Autor(autor.getNombre(), autor.getNacimiento(), autor.getMuerte());
+        this.autor = autor;
         this.lenguaje = libro.lenguaje().getFirst();
         this.descargas = libro.descargas();
     }
@@ -68,12 +72,9 @@ public class Libro {
 
     @Override
     public String toString() {
-        return "Libro{" +
-                "id=" + id +
-                ", titulo='" + titulo + '\'' +
-                ", autor='" + autor + '\'' +
-                ", lenguaje='" + lenguaje + '\'' +
-                ", descargas=" + descargas +
-                '}';
+        return  " Titulo = " + titulo + '\n' +
+                " Autor = " + autor.getNombre() + '\n' +
+                " Lenguaje = " + lenguaje + '\n' +
+                " Descargas = " + descargas + '\n';
     }
 }
